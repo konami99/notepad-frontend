@@ -3,9 +3,11 @@ import { Controller, useForm } from 'react-hook-form';
 import Input from "@material-ui/core/Input";
 import * as React from 'react';
 import { Box } from "@mui/system";
+import Grid from '@mui/system/Unstable_Grid';
 import useSWR from 'swr';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import Layout from '../../components/layout'
 
 export default function create() {
   const validationSchema = Yup.object().shape({
@@ -36,7 +38,7 @@ export default function create() {
   const [postData, setPostData] = React.useState(null);
 
   const { data, error } = useSWR(
-    postData ? 'http://notep-Publi-8VYH2S3SISK0-575312188.us-west-2.elb.amazonaws.com/api/users' : null,
+    postData ? `${process.env.NEXT_PUBLIC_EXPRESS_ENDPOINT}/api/users` : null,
     fetcher
   );
 
@@ -46,11 +48,7 @@ export default function create() {
 
   if (error) return "An error has occurred.";
   return (
-    <div className="container">
-      <Head>
-        <title>New Note</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout>
       <main>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box component="span" sx={{ display: 'block' }}>
@@ -74,6 +72,6 @@ export default function create() {
           </Box>
         </form>
       </main>
-    </div>
+    </Layout>
   )
 }
