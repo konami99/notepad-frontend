@@ -31,7 +31,6 @@ export default function create() {
     },
     body: JSON.stringify({email: postData.emailRequired, name: postData.nameRequired})
   }).then((res) => {
-    setPostData(null);
     return res.json();
   });
 
@@ -46,7 +45,13 @@ export default function create() {
     setPostData(data);
   };
 
-  if (error) return "An error has occurred.";
+  if (error) {
+    return (
+      <Layout>
+        <div>An error has occurred.</div>
+      </Layout>
+    )
+  };
   return (
     <Layout>
       <main>
