@@ -4,11 +4,11 @@ import Link from 'next/link';
 import Grid from '@mui/system/Unstable_Grid';
 import { Box } from "@mui/system";
 
-export default function Layout({ children }) {
+export default function Layout({ children, title }) {
   return (
     <div className="container">
       <Head>
-        <title>New User</title>
+        <title>{ title }</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Grid container spacing={2}>

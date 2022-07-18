@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Layout from '../../components/layout'
+import Router from 'next/router'
 
 export default function create() {
   const validationSchema = Yup.object().shape({
@@ -38,7 +39,14 @@ export default function create() {
 
   const { data, error } = useSWR(
     postData ? `${process.env.NEXT_PUBLIC_EXPRESS_ENDPOINT}/api/users` : null,
-    fetcher
+    fetcher,
+    {
+      shouldRetryOnError: false,
+      onSuccess: (data, key, config) => {
+        setPostData(null);
+        Router.push('/users');
+      }
+    }
   );
 
   const onSubmit = data => {
@@ -53,7 +61,7 @@ export default function create() {
     )
   };
   return (
-    <Layout>
+    <Layout title="New User">
       <main>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box component="span" sx={{ display: 'block' }}>
